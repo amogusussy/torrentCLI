@@ -1,0 +1,41 @@
+#!/usr/bin/python3
+import requests
+import json
+import pyperclip
+import sys
+import random
+import subprocess
+
+args = sys.argv
+search = args[1].replace(" ", "+")
+site = "librex.beparanoid.de"
+url = f"https://{site}/api.php?q={search}&p=0&type=3"
+data = requests.get(url=url).json()
+
+class bg:
+    PINK = '\033[95m'
+    BLUE = '\033[94m'
+    CYAN = '\033[96m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    NORM = '\033[0m'
+
+for i in range(8):
+    torrent = data[i]
+    if torrent["seeders"] != 0:
+        name = str(torrent['name'])
+        seeders = str(torrent['seeders'])
+        leechers = str(torrent['leechers'])
+        size = str(torrent['size'])
+        source = str(torrent['source'])
+        print(f"[{i + 1}]{bg.PINK} {name} {bg.GREEN} {seeders} {bg.RED} {leechers} {bg.BLUE} {size} {bg.YELLOW} {source} {bg.NORM}" )
+
+x = int(input("Which one do you want? "))
+
+if "1337x" in data[x]['source']:
+    re = re= requests.get(f"https://{site}{data[x]['magnet']}")
+    magnet = re.headers[upper('location')]
+else:
+    magnet = data[x-1]["magnet"]
+subprocess.run(["xdg-open", magnet])
