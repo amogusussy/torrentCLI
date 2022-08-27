@@ -48,11 +48,11 @@ def main():
     except ValueError:
         print("Please enter a number between 1 and ")
 
-    if "1337x" in data[x]['source']:
+    if "1337x" in data[x - 1]['source']:
         re = requests.get(f"https://{site}/{data[x]['magnet']}")
         magnet = re.headers[('location'.casefold())]
     else:
-        magnet = data[x-1]["magnet"]
+        magnet = data[x - 1]["magnet"]
     subprocess.run(["xdg-open", magnet])
 try:
     main()
