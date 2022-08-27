@@ -1,16 +1,8 @@
 #!/usr/bin/python3
 import requests
 import json
-import pyperclip
 import sys
-import random
 import subprocess
-
-args = sys.argv
-search = args[1].replace(" ", "+")
-site = "librex.beparanoid.de"
-url = f"https://{site}/api.php?q={search}&p=0&type=3"
-data = requests.get(url=url).json()
 
 class bg:
     PINK = '\033[95m'
@@ -21,21 +13,48 @@ class bg:
     RED = '\033[91m'
     NORM = '\033[0m'
 
-for i in range(8):
-    torrent = data[i]
-    if torrent["seeders"] != 0:
-        name = str(torrent['name'])
-        seeders = str(torrent['seeders'])
-        leechers = str(torrent['leechers'])
-        size = str(torrent['size'])
-        source = str(torrent['source'])
-        print(f"[{i + 1}]{bg.PINK} {name} {bg.GREEN} {seeders} {bg.RED} {leechers} {bg.BLUE} {size} {bg.YELLOW} {source} {bg.NORM}" )
+def main():
+    if len(sys.argv) == 1:
+        sys.exit("Please rerun the command in the format: \n ~ $ torrentcli movie name")
+    args = sys.argv[1:]
+    search = ("+".join(args)).replace(" ", "+")
+    site = "librex.beparanoid.de"
+    url = f"https://{site}/api.php?q={search}&p=0&type=3"
+    data = requests.get(url=url).json()
 
-x = int(input("Which one do you want? "))
+    print(args, "\n", search, "\n", site, "\n", url, "\n")
 
-if "1337x" in data[x]['source']:
-    re = re= requests.get(f"https://{site}{data[x]['magnet']}")
-    magnet = re.headers[upper('location')]
-else:
-    magnet = data[x-1]["magnet"]
-subprocess.run(["xdg-open", magnet])
+    numberOfOutputs = 8
+
+    def output(a):
+        for i in range(a):
+            torrent = data[i]
+            if torrent["seeders"] != 0:
+                name = str(torrent['name'])
+                seeders = str(torrent['seeders'])
+                leechers = str(torrent['leechers'])
+                size = str(torrent['size'])
+                source = str(torrent['source'])
+                print(f"[{i + 1}]{bg.RED} {name} {bg.GREEN} {seeders} {bg.PINK} {leechers} {bg.BLUE} {size} {bg.YELLOW} {source} {bg.NORM}" )
+
+    if len(data) < numberOfOutputs:
+        a = len(data)
+    else: 
+        a = numberOfOutputs
+    output(a)
+
+    try:
+        x = int(input("Which torrent would you like? "))
+    except ValueError:
+        print("Please enter a number between 1 and ")
+
+    if "1337x" in data[x]['source']:
+        re = requests.get(f"https://{site}/{data[x]['magnet']}")
+        magnet = re.headers[('location'.casefold())]
+    else:
+        magnet = data[x-1]["magnet"]
+    subprocess.run(["xdg-open", magnet])
+try:
+    main()
+except KeyboardInterrupt:
+    print("Exiting...")
