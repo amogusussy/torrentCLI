@@ -64,7 +64,7 @@ def main():
     # print(magnet)
 
     if "-s" in sys.argv:
-        subprocess.run(f"{torrentStream} '{magnet}'")
+        subprocess.run(torrentStream, magnet)
     else:
         subprocess.run(["xdg-open", magnet])
 try:
