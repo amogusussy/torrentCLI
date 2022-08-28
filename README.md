@@ -8,7 +8,7 @@ Alternatively, you can just download the script directly from the browser with t
 
 # Running
 
-You can run it by typing `torrentcli search query`. So for example, if you were to want a Better Call Saul torrent, you could type `torrentcli Better Call Saul`
+You can run it by typing `torrentcli search query`. So for example, if you were to want a Big Buck Bunny torrent, you could type `torrentcli Big Buck Bunny`
 
 If you've downloaded it from the browser, you can run it with `python3 /path/to/torrentcli search query`
 
