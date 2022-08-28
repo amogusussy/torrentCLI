@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 import requests
-import json
 import sys
 import subprocess
+import random
+
 
 class bg:
     PINK = '\033[95m'
@@ -17,14 +18,20 @@ def main():
     if len(sys.argv) == 1:
         sys.exit("Please rerun the command in the format: \n ~ $ torrentcli movie name")
     args = sys.argv[1:]
-    search = ("+".join(args)).replace(" ", "+")
-    site = "librex.beparanoid.de"
-    url = f"https://{site}/api.php?q={search}&p=0&type=3"
-    data = requests.get(url=url).json()
 
-    print(args, "\n", search, "\n", site, "\n", url, "\n")
+    for i in args:
+        if "-" in i:
+            args.remove(i)
+    search = ("+".join(args)).replace(" ", "+")
+    sites = ["librex.extravi.dev", "librex.beparanoid.de", "search.davidovski.xyz", "search.funami.tech", "search.madreyk.xyz"]
+    site = "librex.beparanoid.de"
+    URL = f"https://{site}/api.php?q={search}&p=0&type=3"
+    data = requests.get(url=URL)
+    data = data.json()
+    print(args, "\n", search, "\n", site, "\n", URL, "\n")
 
     numberOfOutputs = 8
+    torrentStream = "vlc"
 
     def output(a):
         for i in range(a):
@@ -35,25 +42,31 @@ def main():
                 leechers = str(torrent['leechers'])
                 size = str(torrent['size'])
                 source = str(torrent['source'])
-                print(f"[{i + 1}]{bg.RED} {name} {bg.GREEN} {seeders} {bg.PINK} {leechers} {bg.BLUE} {size} {bg.YELLOW} {source} {bg.NORM}" )
+                print(f"[{i + 1}]{bg.RED} {name} \n ---{bg.GREEN} [se] {seeders} {bg.PINK} [le] {leechers} {bg.BLUE} [size] {size} {bg.YELLOW} [src] {source} {bg.NORM}")
 
     if len(data) < numberOfOutputs:
         a = len(data)
-    else: 
+    else:
         a = numberOfOutputs
     output(a)
 
     try:
-        x = int(input("Which torrent would you like? "))
+        x = int(input("Which torrent would you like? ")) - 1
     except ValueError:
         print("Please enter a number between 1 and ")
 
-    if "1337x" in data[x - 1]['source']:
-        re = requests.get(f"https://{site}/{data[x]['magnet']}")
-        magnet = re.headers[('location'.casefold())]
+    if "1337x" in data[x]['source']:
+        re = str(f"https://{site}{data[x]['magnet']}")
+        magnet = re
+        # print(headers)
     else:
-        magnet = data[x - 1]["magnet"]
-    subprocess.run(["xdg-open", magnet])
+        magnet = data[x]["magnet"]
+    # print(magnet)
+
+    if "-s" in sys.argv:
+        subprocess.run(f"{torrentStream} '{magnet}'")
+    else:
+        subprocess.run(["xdg-open", magnet])
 try:
     main()
 except KeyboardInterrupt:
