@@ -24,7 +24,7 @@ def main():
             args.remove(i)
     search = ("+".join(args)).replace(" ", "+")
     sites = ["librex.extravi.dev", "librex.beparanoid.de", "search.davidovski.xyz", "search.funami.tech", "search.madreyk.xyz"]
-    site = "librex.beparanoid.de"
+    site = random.choice(sites)
     URL = f"https://{site}/api.php?q={search}&p=0&type=3"
     data = requests.get(url=URL)
     data = data.json()
