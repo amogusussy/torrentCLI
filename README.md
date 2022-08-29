@@ -16,7 +16,8 @@ If you have [`vlc-bittorrent`](https://github.com/johang/vlc-bittorrent) install
 
 ***
 
-This is reliant on the [Librex](https://github.com/hnhx/librex/) API. \n
+This is reliant on the [Librex](https://github.com/hnhx/librex/) API.
+
 You can self host it yourself with the following commands:
 
     git clone https://github.com/hnhx/librex/
