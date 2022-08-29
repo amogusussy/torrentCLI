@@ -27,5 +27,5 @@ You can self host it yourself with the following commands:
 Then open `/usr/bin/torrentcli` and replace `site = random.choice(sites)` with `site = 'http://localhost:8080'`
 
 
-#Other Info
+# Other Info
 By default, this will use xdg-open, which is specific to the Xorg server on Unix-like machines. You can change that by editing `        subprocess.run(["xdg-open", magnet])` by replacing xdg-open with whatever torrent client you use.
