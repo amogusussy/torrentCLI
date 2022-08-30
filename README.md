@@ -4,7 +4,7 @@
 
 Alternatively, you can just download the script directly from the browser with the above link.
 
-***
+
 
 # Running
 
@@ -14,7 +14,7 @@ If you've downloaded it from the browser, you can run it with `python3 /path/to/
 
 If you have [`vlc-bittorrent`](https://github.com/johang/vlc-bittorrent) installed, you can run the command with the `-s` flag to stream the torrent.
 
-***
+# 
 
 This is reliant on the [Librex](https://github.com/hnhx/librex/) API.
 
